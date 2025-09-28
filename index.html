@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportsTalent AI - Complete Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+</head>
+<body>
+    <!-- Demo Banner -->
+    <div id="demo-banner" class="demo-banner">
+        <span>🚀 Project Demo - NextGen Athlete AI App</span>
+    </div>
+
+    <!-- Welcome/Landing Page -->
+    <div id="welcome-page" class="page active">
+        <div class="welcome-container">
+            <div class="app-header">
+                <div class="app-logo">🏆</div>
+                <h1>NextGen Athlete</h1>
+                <p class="tagline">AI-Powered Sports Talent Assessment App for India</p>
+                <p class="description">Where talent meets innovation</p>
+                <p class="description">Democratizing sports talent discovery through offline AI analysis on entry-level smartphones</p>
+            </div>
+
+            <div class="key-features">
+                <h2>Why NextGen Athlete?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🤖</span>
+                        <h3>Offline AI Analysis</h3>
+                        <p>Works without internet using on-device AI models</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🆔</span>
+                        <h3>UIDAI Integration</h3>
+                        <p>Secure identity verification with e-KYC support</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🌍</span>
+                        <h3>Multi-Language</h3>
+                        <p>Hindi, English & regional language support</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">📱</span>
+                        <h3>Entry-Level Support</h3>
+                        <p>Optimized for 2GB RAM smartphones</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="role-selection">
+                <h2>Get Started</h2>
+                <div class="role-buttons">
+                    <button class="btn btn--primary role-btn" onclick="selectRole('athlete')">
+                        <div class="role-icon">👤</div>
+                        <div class="role-content">
+                            <h3>I'm an Athlete</h3>
+                            <p>Record tests, track progress, get AI insights</p>
+                        </div>
+                    </button>
+                    <button class="btn btn--secondary role-btn" onclick="selectRole('official')">
+                        <div class="role-icon">👨‍💼</div>
+                        <div class="role-content">
+                            <h3>I'm an Official</h3>
+                            <p>Manage athletes, view profiles, generate reports</p>
+                        </div>
+                    </button>
+                </div>
+                
+                <div class="tutorial-section">
+                    <button class="btn btn--outline" onclick="showUidaiTutorial()">
+                        📚 Need Aadhaar? Complete Registration Guide
+                    </button>
+                    <button class="btn btn--outline" onclick="showRecordingTutorial()">
+                        🎥 Video Recording Tutorial
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login-page" class="page">
+        <div class="container">
+            <div class="login-header">
+                <button class="btn btn--outline" onclick="showWelcomePage()">← Back</button>
+                <h2>Login</h2>
+                <div class="role-indicator" id="login-role-indicator">Athlete Login</div>
+            </div>
+
+            <div class="login-form">
+                <!-- Athlete Login -->
+                <div id="athlete-login" class="login-section active">
+                    <h3>🏃 Athlete Login</h3>
+                    <div class="login-method-toggle">
+                        <button class="method-btn active" onclick="switchLoginMethod('username')">Username/Password</button>
+                        <button class="method-btn" onclick="switchLoginMethod('mobile')">Mobile OTP</button>
+                    </div>
+                    
+                    <div id="username-login" class="login-method active">
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" id="athlete-username" placeholder="Enter username" value="demo_athlete">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" id="athlete-password" placeholder="Enter password" value="1234">
+                        </div>
+                        <button class="btn btn--primary btn--full-width" onclick="loginAthlete('username')">Login</button>
+                    </div>
+
+                    <div id="mobile-login" class="login-method">
+                        <div class="form-group">
+                            <label class="form-label">Registered Mobile Number</label>
+                            <input type="tel" class="form-control" id="athlete-mobile" placeholder="Enter mobile number" value="9876543210">
+                        </div>
+                        <button class="btn btn--secondary btn--full-width" onclick="sendOTPToMobile()" id="send-otp-btn">Send OTP</button>
+                        
+                        <div id="otp-section" class="hidden">
+                            <div class="form-group">
+                                <label class="form-label">Enter OTP</label>
+                                <div class="otp-group">
+                                    <input type="text" class="otp-box" maxlength="1">
+                                    <input type="text" class="otp-box" maxlength="1">
+                                    <input type="text" class="otp-box" maxlength="1">
+                                    <input type="text" class="otp-box" maxlength="1">
+                                </div>
+                            </div>
+                            <button class="btn btn--primary btn--full-width" onclick="loginAthlete('mobile')">Verify & Login</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Official Login -->
+                <div id="official-login" class="login-section">
+                    <h3>👨‍💼 Official Login</h3>
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" id="official-username" placeholder="Enter username" value="official_admin">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" id="official-password" placeholder="Enter password" value="admin">
+                    </div>
+                    <button class="btn btn--primary btn--full-width" onclick="loginOfficial()">Login</button>
+                </div>
+
+                <div class="login-actions">
+                    <p class="demo-credentials">
+                        <strong>Demo Credentials:</strong><br>
+                        Athlete: demo_athlete / 1234<br>
+                        Official: official_admin / admin<br>
+                        OTP Demo: 0000
+                    </p>
+                    <button class="btn btn--outline" onclick="showRegistrationPage()">New User? Register Here</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UIDAI Tutorial Page -->
+    <div id="uidai-tutorial-page" class="page">
+        <div class="container">
+            <div class="tutorial-header">
+                <button class="btn btn--outline" onclick="showWelcomePage()">← Back</button>
+                <h2>Complete Aadhaar Registration Guide</h2>
+            </div>
+
+            <div class="tutorial-content">
+                <div class="tutorial-intro">
+                    <div class="intro-card">
+                        <h3>🆔 Why Aadhaar is Required</h3>
+                        <p>Aadhaar ensures secure identity verification and prevents duplicate registrations. It's required by UIDAI guidelines for sports talent programs.</p>
+                    </div>
+                </div>
+
+                <div class="tutorial-option">
+                    <h3>🏢 Option 1: New Aadhaar Registration</h3>
+                    <div class="steps">
+                        <div class="step">
+                            <span class="step-num">1</span>
+                            <div class="step-content">
+                                <strong>Find Nearest Center</strong>
+                                <p>Use UIDAI website or mAadhaar app to locate the nearest enrollment center.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">2</span>
+                            <div class="step-content">
+                                <strong>Required Documents</strong>
+                                <p>Bring any one: Birth certificate, School ID card, Passport, or any government issued photo ID</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <span class="step-num">3</span>
+                            <div class="step-content">
+                                <strong>Biometric Capture</strong>
+                                <p>Fingerprints, iris scan, and photograph will be captured at the center</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tutorial-option">
+                    <h3>📱 Option 2: Offline e-KYC (For Existing Aadhaar)</h3>
+                    <div class="ekyc-steps">
+                        <div class="ekyc-item">
+                            <span class="ekyc-icon">📲</span>
+                            <div>
+                                <strong>Install mAadhaar App</strong>
+                                <p>Download official UIDAI app from Play Store</p>
+                            </div>
+                        </div>
+                        <div class="ekyc-item">
+                            <span class="ekyc-icon">🔐</span>
+                            <div>
+                                <strong>Generate Offline OTP</strong>
+                                <p>Create secure offline XML file with your data</p>
+                            </div>
+                        </div>
+                        <div class="ekyc-item">
+                            <span class="ekyc-icon">✅</span>
+                            <div>
+                                <strong>Use in Our App</strong>
+                                <p>Verify identity offline without sharing full Aadhaar number</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tutorial-actions">
+                    <button class="btn btn--primary" onclick="showRegistrationPage()">
+                        I Have Aadhaar - Continue Registration
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recording Tutorial Page -->
+    <div id="recording-tutorial-page" class="page">
+        <div class="container">
+            <div class="tutorial-header">
+                <button class="btn btn--outline" onclick="showWelcomePage()">← Back</button>
+                <h2>Video Recording Tutorial</h2>
+            </div>
+
+            <div class="recording-tutorial-content">
+                <div class="tutorial-video-section">
+                    <h3>🎥 Tutorial Video</h3>
+                    <div class="video-container">
+                        <video controls width="100%" style="border-radius: 12px;">
+                            <source src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <p class="video-description">Watch this complete guide on proper recording techniques, camera positioning, and pose alignment for accurate AI analysis.</p>
+                </div>
+
+                <div class="tutorial-section">
+                    <h3>📱 Camera Setup & Positioning</h3>
+                    <div class="guide-grid">
+                        <div class="guide-item">
+                            <div class="guide-icon">📐</div>
+                            <h4>Distance</h4>
+                            <p>Stand 2 meters away from phone</p>
+                            <div class="tip">Use arm's length as reference</div>
+                        </div>
+                        <div class="guide-item">
+                            <div class="guide-icon">📏</div>
+                            <h4>Height</h4>
+                            <p>Place phone at chest height</p>
+                            <div class="tip">Use books/chair to position</div>
+                        </div>
+                        <div class="guide-item">
+                            <div class="guide-icon">📱</div>
+                            <h4>Stability</h4>
+                            <p>Keep phone perfectly steady</p>
+                            <div class="tip">Use both hands or phone stand</div>
+                        </div>
+                        <div class="guide-item">
+                            <div class="guide-icon">👤</div>
+                            <h4>Framing</h4>
+                            <p>Full body must be visible</p>
+                            <div class="tip">Check before starting</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tutorial-actions">
+                    <button class="btn btn--primary" onclick="startPracticeMode()">
+                        🎯 Practice Recording Mode
+                    </button>
+                    <button class="btn btn--secondary" onclick="showWelcomePage()">
+                        Ready to Start
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Page -->
+    <div id="registration-page" class="page">
+        <div class="container">
+            <div class="reg-header">
+                <button class="btn btn--outline" onclick="showWelcomePage()">← Back</button>
+                <h2>Secure Registration</h2>
+                <div class="role-indicator" id="role-indicator">Athlete Registration</div>
+            </div>
+
+            <div class="reg-form">
+                <div class="reg-step active" id="reg-step-1">
+                    <h3>🆔 Aadhaar Verification</h3>
+                    <div class="form-group">
+                        <label class="form-label">Aadhaar Number (Last 4 digits for privacy)</label>
+                        <input type="text" class="form-control" id="aadhaar-input" placeholder="XXXX" maxlength="4">
+                        <small class="privacy-note">🔒 For privacy, we only store last 4 digits. Full number never stored.</small>
+                    </div>
+                    <button class="btn btn--primary" onclick="nextRegStep()">Verify Identity</button>
+                </div>
+
+                <div class="reg-step" id="reg-step-2">
+                    <h3>📱 OTP Verification</h3>
+                    <p>Enter OTP sent to your Aadhaar-registered mobile number</p>
+                    <div class="otp-group">
+                        <input type="text" class="otp-box" maxlength="1">
+                        <input type="text" class="otp-box" maxlength="1">
+                        <input type="text" class="otp-box" maxlength="1">
+                        <input type="text" class="otp-box" maxlength="1">
+                        <input type="text" class="otp-box" maxlength="1">
+                        <input type="text" class="otp-box" maxlength="1">
+                    </div>
+                    <div class="otp-actions">
+                        <button class="btn btn--primary" onclick="nextRegStep()">Verify OTP</button>
+                        <button class="btn btn--outline" onclick="resendOTP()">Resend OTP</button>
+                    </div>
+                </div>
+
+                <div class="reg-step" id="reg-step-3">
+                    <h3>✅ Profile Setup</h3>
+                    <div class="profile-form">
+                        <div class="verified-info">
+                            <h4>🎉 Identity Verified Successfully!</h4>
+                            <p>Information retrieved from UIDAI:</p>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" value="demo_athlete" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Age</label>
+                                <input type="text" class="form-control" value="15" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">State</label>
+                                <input type="text" class="form-control" value="Tamil Nadu" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">District</label>
+                                <input type="text" class="form-control" value="Trichy" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Primary Sport Interest</label>
+                            <select class="form-control" id="sport-select">
+                                <option value="any" selected>Any</option>
+                                <option value="track-field">Track & Field</option>
+                                <option value="cricket">Cricket</option>
+                                <option value="football">Football</option>
+                                <option value="basketball">Basketball</option>
+                                <option value="badminton">Badminton</option>
+                                <option value="wrestling">Wrestling</option>
+                                <option value="boxing">Boxing</option>
+                            </select>
+                        </div>
+                        <div class="consent-section">
+                            <div class="consent-item">
+                                <input type="checkbox" id="consent-data" class="checkbox">
+                                <label for="consent-data">I consent to secure data processing as per UIDAI guidelines</label>
+                            </div>
+                            <div class="consent-item">
+                                <input type="checkbox" id="consent-terms" class="checkbox">
+                                <label for="consent-terms">I agree to SportsTalent AI Terms & Conditions</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn--primary" onclick="completeRegistration()">Start My Fitness Journey</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Athlete Dashboard -->
+    <div id="athlete-dashboard" class="page dashboard">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-left">
+                <span class="status offline">📶 Offline Mode</span>
+                <span class="storage-info">💾 145MB/2GB</span>
+                <span class="sync-status">⏳ 3 videos pending sync</span>
+            </div>
+            <button class="btn btn--sm" onclick="showWelcomePage()">Logout</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Home Tab -->
+            <div id="home-tab" class="tab-pane active">
+                <div class="container">
+                    <div class="profile-section">
+                        <div class="profile-card">
+                            <div class="profile-pic">👤</div>
+                            <div class="profile-info">
+                                <h2>demo_athlete</h2>
+                                <p>15 years • Any • Tamil Nadu</p>
+                                <div class="aadhaar-info">🆔 Verified • Aadhaar: ****1234</div>
+                                <div class="quick-stats">
+                                    <div class="stat">
+                                        <span class="stat-number">8</span>
+                                        <span class="stat-label">Tests</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-number">87</span>
+                                        <span class="stat-label">Score</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-number">5</span>
+                                        <span class="stat-label">Badges</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="home-actions">
+                        <button class="action-btn primary" onclick="switchTab('record')">
+                            <div class="action-icon">📹</div>
+                            <div class="action-content">
+                                <h3>Record New Test</h3>
+                                <p>AI-guided fitness assessment</p>
+                            </div>
+                        </button>
+                        <button class="action-btn secondary" onclick="switchTab('performance')">
+                            <div class="action-icon">📊</div>
+                            <div class="action-content">
+                                <h3>View Performance</h3>
+                                <p>Track your progress & achievements</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Record Tab -->
+            <div id="record-tab" class="tab-pane">
+                <div class="container">
+                    <div class="record-header">
+                        <h2>Fitness Tests</h2>
+                        <div class="header-actions">
+                            <button class="btn btn--sm" onclick="showRecordingTutorial()">📚 Tutorial</button>
+                        </div>
+                    </div>
+                    
+                    <div class="test-categories">
+                        <div class="category-section">
+                            <h3>📏 Anthropometric</h3>
+                            <div class="tests-row">
+                                <div class="test-card" onclick="openTestModal('Height', 'anthropometric')">
+                                    <div class="test-icon">📏</div>
+                                    <h4>Height</h4>
+                                    <p>AI Photo Analysis</p>
+                                    <button class="record-btn">Record</button>
+                                </div>
+                                <div class="test-card" onclick="openTestModal('Weight', 'anthropometric')">
+                                    <div class="test-icon">⚖️</div>
+                                    <h4>Weight</h4>
+                                    <p>Manual Entry</p>
+                                    <button class="record-btn">Record</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category-section">
+                            <h3>🤸 Flexibility & Power</h3>
+                            <div class="tests-row">
+                                <div class="test-card" onclick="openTestModal('Sit & Reach', 'flexibility')">
+                                    <div class="test-icon">🤸</div>
+                                    <h4>Sit & Reach</h4>
+                                    <p>30 seconds</p>
+                                    <button class="record-btn">Record</button>
+                                </div>
+                                <div class="test-card" onclick="openTestModal('Vertical Jump', 'power')">
+                                    <div class="test-icon">⬆️</div>
+                                    <h4>Vertical Jump</h4>
+                                    <p>10 seconds</p>
+                                    <button class="record-btn">Record</button>
+                                </div>
+                                <div class="test-card" onclick="openTestModal('Broad Jump', 'power')">
+                                    <div class="test-icon">↗️</div>
+                                    <h4>Broad Jump</h4>
+                                    <p>10 seconds</p>
+                                    <button class="record-btn">Record</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category-section">
+                            <h3>💨 Speed & Agility</h3>
+                            <div class="tests-row">
+                                <div class="test-card" onclick="openTestModal('30m Sprint', 'speed')">
+                                    <div class="test-icon">💨</div>
+                                    <h4>30m Sprint</h4>
+                                    <p>15 seconds</p>
+                                    <button class="record-btn">Record</button>
+                                </div>
+                                <div class="test-card" onclick="openTestModal('Shuttle Run', 'agility')">
+                                    <div class="test-icon">🔄</div>
+                                    <h4>Shuttle Run</h4>
+                                    <p>60 seconds</p>
+                                    <button class="record-btn">Record</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category-section">
+                            <h3>💪 Strength & Endurance</h3>
+                            <div class="tests-row">
+                                <div class="test-card" onclick="openTestModal('Sit-ups', 'strength')">
+                                    <div class="test-icon">💪</div>
+                                    <h4>Sit-ups</h4>
+                                    <p>60 seconds</p>
+                                    <button class="record-btn">Record</button>
+                                </div>
+                                <div class="test-card" onclick="openTestModal('Medicine Ball', 'strength')">
+                                    <div class="test-icon">🏀</div>
+                                    <h4>Medicine Ball</h4>
+                                    <p>15 seconds</p>
+                                    <button class="record-btn">Record</button>
+                                </div>
+                                <div class="test-card" onclick="openTestModal('800m Run', 'endurance')">
+                                    <div class="test-icon">🏃</div>
+                                    <h4>800m Run</h4>
+                                    <p>5-8 minutes</p>
+                                    <button class="record-btn">Record</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Tab -->
+            <div id="performance-tab" class="tab-pane">
+                <div class="container">
+                    <div class="performance-header">
+                        <h2>Performance Analytics</h2>
+                    </div>
+
+                    <div class="performance-overview">
+                        <div class="overview-cards">
+                            <div class="perf-card">
+                                <div class="perf-icon">🎯</div>
+                                <div class="perf-value">87</div>
+                                <div class="perf-label">Overall Score</div>
+                            </div>
+                            <div class="perf-card">
+                                <div class="perf-icon">🏆</div>
+                                <div class="perf-value">3rd</div>
+                                <div class="perf-label">State Rank</div>
+                            </div>
+                            <div class="perf-card">
+                                <div class="perf-icon">📈</div>
+                                <div class="perf-value">94%</div>
+                                <div class="perf-label">Potential</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-section">
+                        <h3>🕸️ Fitness Profile</h3>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="performance-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-section">
+                        <h3>📊 Progress Over Time</h3>
+                        <div class="chart-container" style="position: relative; height: 250px;">
+                            <canvas id="progress-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Tab -->
+            <div id="help-tab" class="tab-pane">
+                <div class="container">
+                    <div class="chat-header">
+                        <h2>AI Assistant</h2>
+                        <div class="chat-controls">
+                            <button class="btn btn--sm" onclick="toggleLanguage()" id="lang-toggle">🌐 हिंदी</button>
+                            <button class="btn btn--sm" onclick="clearChat()">🗑️ Clear</button>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-categories">
+                        <button class="cat-btn active" onclick="askQuestion('recording', this)">📹 Recording</button>
+                        <button class="cat-btn" onclick="askQuestion('storage', this)">💾 Storage</button>
+                        <button class="cat-btn" onclick="askQuestion('offline', this)">📶 Offline</button>
+                        <button class="cat-btn" onclick="askQuestion('performance', this)">📊 Performance</button>
+                    </div>
+
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="bot-message">
+                            <div class="bot-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-text">
+                                    <p><strong>SportsTalent AI Assistant</strong></p>
+                                    <p>Hi! I'm here to help with recording, storage, offline features, and performance tracking. Ask me anything!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <h4>Quick Help</h4>
+                        <div class="action-buttons">
+                            <button class="quick-btn" onclick="askQuickQuestion('How do I record a test?')">
+                                How to record?
+                            </button>
+                            <button class="quick-btn" onclick="askQuickQuestion('How does offline mode work?')">
+                                Offline features
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-section">
+                        <div class="chat-input">
+                            <input type="text" class="form-control" placeholder="Type your question..." id="chat-input" onkeypress="handleChatEnter(event)">
+                            <button class="btn btn--primary" onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profile-tab" class="tab-pane">
+                <div class="container">
+                    <div class="profile-header">
+                        <h2>My Profile</h2>
+                        <button class="btn btn--sm" onclick="toggleProfileEdit()" id="edit-profile-btn">✏️ Edit</button>
+                    </div>
+
+                    <div class="profile-content">
+                        <div class="profile-picture-section">
+                            <div class="large-profile-pic">👤</div>
+                            <button class="btn btn--outline btn--sm">📷 Change Photo</button>
+                        </div>
+
+                        <div class="profile-form" id="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-control profile-input" id="profile-name" value="demo_athlete" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Age</label>
+                                    <input type="text" class="form-control profile-input" id="profile-age" value="15" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">State</label>
+                                    <input type="text" class="form-control profile-input" id="profile-state" value="Tamil Nadu" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">District</label>
+                                    <input type="text" class="form-control profile-input" id="profile-district" value="Trichy" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Interested Sport</label>
+                                <select class="form-control profile-input" id="profile-sport" disabled>
+                                    <option value="any" selected>Any</option>
+                                    <option value="track-field">Track & Field</option>
+                                    <option value="cricket">Cricket</option>
+                                    <option value="football">Football</option>
+                                    <option value="basketball">Basketball</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Mobile Number</label>
+                                <input type="tel" class="form-control profile-input" id="profile-mobile" value="9876543210" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control profile-input" id="profile-email" value="demo_athlete@gmail.com" readonly>
+                            </div>
+
+                            <div class="profile-actions hidden" id="profile-actions">
+                                <button class="btn btn--primary" onclick="saveProfile()">💾 Save Changes</button>
+                                <button class="btn btn--outline" onclick="cancelProfileEdit()">❌ Cancel</button>
+                            </div>
+                        </div>
+
+                        <div class="profile-stats">
+                            <h3>📊 My Statistics</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-label">Total Tests Completed</span>
+                                    <span class="stat-value">8</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Overall Score</span>
+                                    <span class="stat-value">87/100</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Badges Earned</span>
+                                    <span class="stat-value">5</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Account Since</span>
+                                    <span class="stat-value">Sept 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" onclick="switchTab('home')" data-tab="home">
+                <span class="nav-icon">🏠</span>
+                <span>Home</span>
+            </button>
+            <button class="nav-btn" onclick="switchTab('record')" data-tab="record">
+                <span class="nav-icon">📹</span>
+                <span>Record</span>
+            </button>
+            <button class="nav-btn" onclick="switchTab('performance')" data-tab="performance">
+                <span class="nav-icon">📊</span>
+                <span>Performance</span>
+            </button>
+            <button class="nav-btn" onclick="switchTab('help')" data-tab="help">
+                <span class="nav-icon">💬</span>
+                <span>Help</span>
+            </button>
+            <button class="nav-btn" onclick="switchTab('profile')" data-tab="profile">
+                <span class="nav-icon">👤</span>
+                <span>Profile</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Official Dashboard -->
+    <div id="official-dashboard" class="page dashboard">
+        <div class="container">
+            <div class="official-header">
+                <div class="header-content">
+                    <h1>Official Dashboard</h1>
+                    <div class="official-info">
+                        <span>🏢 Sports Authority of India</span>
+                        <span>📍 Tamil Nadu Region</span>
+                    </div>
+                </div>
+                <button class="btn btn--outline" onclick="showWelcomePage()">Logout</button>
+            </div>
+
+            <div class="official-tabs">
+                <button class="tab-btn active" onclick="switchOfficialTab('athletes')">👥 Athletes</button>
+                <button class="tab-btn" onclick="switchOfficialTab('approvals')">✅ Approvals</button>
+                <button class="tab-btn" onclick="switchOfficialTab('help')">❓ Help</button>
+                <button class="tab-btn" onclick="switchOfficialTab('profile')">👤 Profile</button>
+            </div>
+
+            <!-- Athletes Tab -->
+            <div id="athletes-tab" class="official-content active">
+                <div class="content-header">
+                    <h3>Athlete Management</h3>
+                    <div class="header-actions">
+                        <input type="text" class="form-control" placeholder="Search athletes..." id="athlete-search">
+                    </div>
+                </div>
+
+                <div class="athletes-list">
+                    <div class="athlete-item">
+                        <div class="athlete-info">
+                            <div class="athlete-avatar">👤</div>
+                            <div class="athlete-details">
+                                <strong>demo_athlete</strong>
+                                <div class="athlete-meta">15 years • Trichy • ****1234</div>
+                                <div class="athlete-status elite">🏆 Elite Potential</div>
+                            </div>
+                        </div>
+                        <div class="athlete-sport">Any</div>
+                        <div class="athlete-score">87</div>
+                        <div class="athlete-actions">
+                            <button class="btn btn--sm" onclick="viewAthleteProfile('demo_athlete')">View Profile</button>
+                            <button class="btn btn--sm btn--primary" onclick="approveAthlete('demo_athlete')">Approve</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Approvals Tab -->
+            <div id="approvals-tab" class="official-content">
+                <div class="content-header">
+                    <h3>Pending Approvals</h3>
+                </div>
+                <div class="approvals-list">
+                    <div class="approval-item">
+                        <div class="approval-info">
+                            <strong>demo_athlete</strong>
+                            <p>Recommended for state-level training program</p>
+                        </div>
+                        <div class="approval-actions">
+                            <button class="btn btn--sm btn--primary">✅ Approve</button>
+                            <button class="btn btn--sm btn--outline">❌ Reject</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Tab -->
+            <div id="help-official-tab" class="official-content">
+                <div class="help-content">
+                    <h3>Help & Support</h3>
+                    <div class="help-sections">
+                        <div class="help-section">
+                            <h4>🌐 Language Support</h4>
+                            <div class="language-options">
+                                <button class="btn btn--outline">English</button>
+                                <button class="btn btn--outline">हिंदी</button>
+                            </div>
+                        </div>
+                        
+                        <div class="help-section">
+                            <h4>❓ Frequently Asked Questions</h4>
+                            <div class="faq-list">
+                                <div class="faq-item">
+                                    <strong>How to view athlete profiles?</strong>
+                                    <p>Click on "View Profile" button in the athletes list to see detailed information.</p>
+                                </div>
+                                <div class="faq-item">
+                                    <strong>How to approve athletes?</strong>
+                                    <p>Use the "Approve" button to recommend athletes for training programs.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profile-official-tab" class="official-content">
+                <div class="official-profile">
+                    <h3>Official Profile</h3>
+                    <div class="profile-form">
+                        <div class="form-group">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" value="Official Admin" id="official-name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Organization</label>
+                            <input type="text" class="form-control" value="Sports Authority of India" id="official-org">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Region</label>
+                            <input type="text" class="form-control" value="Tamil Nadu" id="official-region">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" value="official@sai.gov.in" id="official-email">
+                        </div>
+                        <button class="btn btn--primary">💾 Save Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Recording Modal -->
+    <div id="test-modal" class="modal hidden">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="test-title">Test Recording</h3>
+                <button class="modal-close" onclick="closeTestModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="test-setup">
+                    <div class="setup-checklist">
+                        <h4>📋 Pre-Recording Checklist</h4>
+                        <div class="checklist-items" id="setup-checklist">
+                            <div class="check-item">
+                                <input type="checkbox" id="check-distance" onchange="updateReadiness()">
+                                <label for="check-distance">📏 Phone positioned 2 meters away</label>
+                            </div>
+                            <div class="check-item">
+                                <input type="checkbox" id="check-height" onchange="updateReadiness()">
+                                <label for="check-height">📱 Phone at chest height</label>
+                            </div>
+                            <div class="check-item">
+                                <input type="checkbox" id="check-lighting" onchange="updateReadiness()">
+                                <label for="check-lighting">💡 Good lighting (no shadows)</label>
+                            </div>
+                            <div class="check-item">
+                                <input type="checkbox" id="check-frame" onchange="updateReadiness()">
+                                <label for="check-frame">👤 Full body visible in frame</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="camera-preview">
+                        <div class="preview-frame">
+                            <div class="guide-overlay">
+                                <div class="guide-outline">👤</div>
+                                <div class="guide-instructions">
+                                    <div class="instruction-text" id="pose-instruction">Position yourself in the frame</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recording-controls">
+                    <button class="btn btn--primary btn--lg" id="record-btn" onclick="startRecording()" disabled>
+                        <span class="btn-content">
+                            <span class="btn-icon">🔴</span>
+                            <span class="btn-text">Complete Setup First</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
